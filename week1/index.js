@@ -13,10 +13,7 @@ function App() {
       unit: "元",
       num: 10,
       imageUrl: "https://images.unsplash.com/photo-1583182332473-b31ba08929c8",
-      imagesUrl: [
-        "https://images.unsplash.com/photo-1626094309830-abbb0c99da4a",
-        "https://images.unsplash.com/photo-1559656914-a30970c1affd"
-      ]
+      imagesUrl: ["https://images.unsplash.com/photo-1626094309830-abbb0c99da4a", "https://images.unsplash.com/photo-1559656914-a30970c1affd"],
     },
     {
       category: "蛋糕",
@@ -30,9 +27,7 @@ function App() {
       unit: "個",
       num: 1,
       imageUrl: "https://images.unsplash.com/photo-1627834377411-8da5f4f09de8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1001&q=80",
-      imagesUrl: [
-        "https://images.unsplash.com/photo-1618888007540-2bdead974bbb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80",
-      ]
+      imagesUrl: ["https://images.unsplash.com/photo-1618888007540-2bdead974bbb?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=987&q=80"],
     },
     {
       category: "蛋糕",
@@ -46,11 +41,8 @@ function App() {
       unit: "個",
       num: 15,
       imageUrl: "https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fGNha2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60",
-      imagesUrl: [
-        "https://images.unsplash.com/flagged/photo-1557234985-425e10c9d7f1?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTA5fHxjYWtlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60",
-        "https://images.unsplash.com/photo-1540337706094-da10342c93d8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fGNha2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"
-      ]
-    }
+      imagesUrl: ["https://images.unsplash.com/flagged/photo-1557234985-425e10c9d7f1?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTA5fHxjYWtlfGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60", "https://images.unsplash.com/photo-1540337706094-da10342c93d8?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDR8fGNha2V8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60"],
+    },
   ];
 
   return (
@@ -76,7 +68,9 @@ function App() {
                   <td>{item.price}</td>
                   <td>{item.is_enabled ? "啟用" : "未啟用"}</td>
                   <td>
-                    <button className="btn btn-primary" onClick={() => setTempProduct(item)}>查看細節</button>
+                    <button className="btn btn-primary" onClick={() => setTempProduct(item)}>
+                      查看細節
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -86,27 +80,29 @@ function App() {
         <div className="col-md-6">
           <h2>單一產品細節</h2>
           {tempProduct ? (
-          <div className="card mb-3">
-            <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt="主圖" />
-            <div className="card-body">
-              <h5 className="card-title">
-                { tempProduct.title }
-                <span className="badge bg-primary ms-2">{ tempProduct.category }</span>
-              </h5>
-              <p className="card-text">商品描述：{ tempProduct.category }</p>
-              <p className="card-text">商品內容：{ tempProduct.content }</p>
-              <div className="d-flex">
-                <p className="card-text text-secondary"><del>{ tempProduct.origin_price }</del></p>
-                元 / { tempProduct.price } 元
-              </div>
-              <h5 className="mt-3">更多圖片：</h5>
+            <div className="card mb-3">
+              <img src={tempProduct.imageUrl} className="card-img-top primary-image" alt="主圖" />
+              <div className="card-body">
+                <h5 className="card-title">
+                  {tempProduct.title}
+                  <span className="badge bg-primary ms-2">{tempProduct.category}</span>
+                </h5>
+                <p className="card-text">商品描述：{tempProduct.description}</p>
+                <p className="card-text">商品內容：{tempProduct.content}</p>
+                <div className="d-flex">
+                  <p className="card-text text-secondary">
+                    <del>{tempProduct.origin_price}</del>
+                  </p>
+                  元 / {tempProduct.price} 元
+                </div>
+                <h5 className="mt-3">更多圖片：</h5>
                 <div className="d-flex flex-wrap">
                   {tempProduct.imagesUrl.map((url, index) => (
                     <img key={index} src={url} className="images" />
                   ))}
                 </div>
+              </div>
             </div>
-        </div>
           ) : (
             <p className="text-secondary">請選擇一個商品查看</p>
           )}
@@ -116,4 +112,4 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
