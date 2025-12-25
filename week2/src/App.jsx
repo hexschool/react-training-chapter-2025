@@ -5,7 +5,7 @@ import "./assets/style.css";
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
 
 // 請自行替換 API_PATH
-const API_PATH = "";
+const API_PATH = "darrenhsu";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -138,7 +138,7 @@ function App() {
                       </span>
                     </h5>
                     <p className="card-text">
-                      商品描述：{tempProduct.category}
+                      商品描述：{tempProduct.description}
                     </p>
                     <p className="card-text">商品內容：{tempProduct.content}</p>
                     <div className="d-flex">
