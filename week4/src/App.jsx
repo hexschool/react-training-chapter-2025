@@ -8,7 +8,7 @@ import Pagination from "./component/Pagination";
 import "./assets/style.css";
 
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "";
+const API_PATH = "darrenhsu";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -28,11 +28,11 @@ function App() {
     title: "",
     category: "",
     unit: "",
-    originPrice: 0,
+    origin_price: 0,
     price: 0,
     description: "",
     content: "",
-    isEnabled: false,
+    is_enabled: false,
     imagesUrl: [],
   });
 
@@ -43,11 +43,11 @@ function App() {
       title: product.title || "",
       category: product.category || "",
       unit: product.unit || "",
-      originPrice: product.originPrice || 0,
+      origin_price: product.origin_price || 0,
       price: product.price || 0,
       description: product.description || "",
       content: product.content || "",
-      isEnabled: product.isEnabled || false,
+      is_enabled: product.is_enabled || false,
       imagesUrl: product.imagesUrl || [],
     });
     productModalRef.current.show();
@@ -92,9 +92,9 @@ function App() {
     const productData = {
       data: {
         ...templateData,
-        origin_price: Number(templateData.originPrice),
+        origin_price: Number(templateData.origin_price),
         price: Number(templateData.price),
-        is_enabled: templateData.isEnabled ? 1 : 0,
+        is_enabled: templateData.is_enabled ? 1 : 0,
         imageUrl: templateData.imageUrl,
       },
     };

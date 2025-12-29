@@ -14,13 +14,6 @@ function ProductModal({
   onUpdateProduct,
   onDeleteProduct,
 }) {
-  const productModalRef = useRef(null);
-
-  useEffect(() => {
-    productModalRef.current = new bootstrap.Modal("#productModal", {
-      keyboard: false,
-    });
-  }, [modalType]);
 
   return (
     <div
@@ -29,7 +22,6 @@ function ProductModal({
       tabIndex="-1"
       aria-labelledby="productModalLabel"
       aria-hidden="true"
-      ref={productModalRef}
     >
       <div className="modal-dialog modal-xl">
         <div className="modal-content border-0">
@@ -93,11 +85,13 @@ function ProductModal({
                         onChange={onInputChange}
                       />
                     </div>
-                    <img
-                      className="img-fluid"
-                      src={templateData.imageUrl}
-                      alt="主圖"
-                    />
+                    {templateData.imageUrl && (
+                      <img
+                        className="img-fluid"
+                        src={templateData.imageUrl}
+                        alt="主圖"
+                      />
+                    )}
                   </div>
                   <div>
                     {templateData.imagesUrl.map((image, index) => (
@@ -188,16 +182,16 @@ function ProductModal({
                   </div>
                   <div className="row">
                     <div className="mb-3 col-md-6">
-                      <label htmlFor="originPrice" className="form-label">
+                      <label htmlFor="origin_price" className="form-label">
                         原價
                       </label>
                       <input
-                        id="originPrice"
+                        id="origin_price"
                         type="number"
                         min="0"
                         className="form-control"
                         placeholder="請輸入原價"
-                        value={templateData.originPrice}
+                        value={templateData.origin_price}
                         onChange={onInputChange}
                       />
                     </div>
@@ -244,13 +238,13 @@ function ProductModal({
                   <div className="mb-3">
                     <div className="form-check">
                       <input
-                        id="isEnabled"
+                        id="is_enabled"
                         className="form-check-input"
                         type="checkbox"
-                        checked={templateData.isEnabled}
+                        checked={templateData.is_enabled}
                         onChange={onInputChange}
                       />
-                      <label className="form-check-label" htmlFor="isEnabled">
+                      <label className="form-check-label" htmlFor="is_enabled">
                         是否啟用
                       </label>
                     </div>
@@ -304,11 +298,11 @@ ProductModal.propTypes = {
     title: PropTypes.string,
     category: PropTypes.string,
     unit: PropTypes.string,
-    originPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    origin_price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     description: PropTypes.string,
     content: PropTypes.string,
-    isEnabled: PropTypes.bool,
+    is_enabled: PropTypes.bool,
     imagesUrl: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   onCloseModal: PropTypes.func.isRequired,

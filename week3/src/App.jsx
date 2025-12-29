@@ -4,7 +4,7 @@ import * as bootstrap from "bootstrap";
 import "./assets/style.css";
 
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "";
+const API_PATH = "darrenhsu";
 
 function App() {
   // modal 相關
@@ -23,8 +23,6 @@ function App() {
     is_enabled: false,
     imagesUrl: [],
   });
-
-  useEffect(() => {}, [templateData]);
 
   const openModal = (product, type) => {
     setTemplateData({
