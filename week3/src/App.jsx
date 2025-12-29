@@ -4,7 +4,7 @@ import * as bootstrap from "bootstrap";
 import "./assets/style.css";
 
 const API_BASE = "https://ec-course-api.hexschool.io/v2";
-const API_PATH = "darrenhsu";
+const API_PATH = "";
 
 function App() {
   // modal 相關
