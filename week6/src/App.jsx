@@ -182,6 +182,7 @@ function App() {
       try {
         await axios.post(`${API_BASE}/api/user/check`);
         getProducts();
+        getCart();
         setIsAuth(true);
       } catch (err) {
         console.log(err.response.data.message);
