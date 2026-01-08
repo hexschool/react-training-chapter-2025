@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import axios from "axios";
 import * as bootstrap from "bootstrap";
-import validate from "validate.js";
 import { useForm } from "react-hook-form";
 
 import "../src/assets/style.css";
@@ -21,12 +20,19 @@ function App() {
   const [cart, setCart] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(1);
   const productModalRef = useRef(null);
+  const [isAuth, setIsAuth] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+  } = useForm();
+
+  const {
+    register: registerLogin,
+    handleSubmit: handleSubmitLogin,
+    formState: { errors: loginErrors },
   } = useForm();
 
   // 取得全部產品
@@ -124,23 +130,19 @@ function App() {
     }
   };
 
-  const validateForm = (data) => {
-    const validationErrors = validate(data);
-    return validationErrors || {};
-  };
-
   const onSubmit = async (data) => {
-    const validationErrors = validateForm(data);
-    if (Object.keys(validationErrors).length === 0) {
       try {
         const url = `${API_BASE}/api/${API_PATH}/order`;
+        if(!cart.carts.length) {
+          alert("購物車沒有商品！");
+          return;
+        }
         await axios.post(url, { data: { user: data, message: data.message } });
         reset();
         getCart();
       } catch (error) {
         console.error(error);
       }
-    }
   };
 
   const openModal = async (id) => {
@@ -153,18 +155,52 @@ function App() {
     getProducts(page);
   };
 
+  const handleLogin = async (data) => {
+    try {
+      const response = await axios.post(`${API_BASE}/admin/signin`, data);
+      const { token, expired } = response.data;
+      document.cookie = `hexToken=${token};expires=${new Date(expired)}`;
+      axios.defaults.headers.common.Authorization = `${token}`;
+
+      getProducts();
+      getCart();
+      setIsAuth(true);
+    } catch (err) {
+      alert(`登入失敗：${err.response.data.message}`);
+    }
+  };
+
+  
   useEffect(() => {
-    getProducts();
-    getCart();
+    const token = document.cookie.replace(
+      /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+    axios.defaults.headers.common.Authorization = token;
+
+    const checkAdmin = async () => {
+      try {
+        await axios.post(`${API_BASE}/api/user/check`);
+        getProducts();
+        setIsAuth(true);
+      } catch (err) {
+        console.log(err.response.data.message);
+      }
+    };
+    checkAdmin();
   }, []);
 
   useEffect(() => {
+    if (!isAuth) return;
+    
     productModalRef.current = new bootstrap.Modal("#productModal", {
       keyboard: false,
     });
-  }, []);
+  }, [isAuth]);
 
   return (
+    <>
+    { isAuth ? (
     <div className="container mt-5">
       {/* Product Modal */}
       <div className="modal" id="productModal" ref={productModalRef}>
@@ -528,6 +564,60 @@ function App() {
         </form>
       </div>
     </div>
+    ) : (
+      <div className="container login mt-5">
+        <div className="row justify-content-center">
+          <h1 className="h3 mb-3 font-weight-normal">請先登入</h1>
+          <div className="col-8">
+            <form id="form" className="form-signin" onSubmit={handleSubmitLogin(handleLogin)}>
+              <div className="form-floating mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  id="username"
+                  placeholder="name@example.com"
+                  {...registerLogin("username", { 
+                    required: "請輸入 Email 地址",
+                    pattern: { value: /^\S+@\S+$/i, message: "Email 格式不正確" }
+                  })}
+                  required
+                  autoFocus
+                />
+                <label htmlFor="username">Email address</label>
+                {loginErrors.username && (
+                  <p className="text-danger mt-1">{loginErrors.username.message}</p>
+                )}
+              </div>
+              <div className="form-floating">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  placeholder="Password"
+                  {...registerLogin("password", { 
+                    required: "請輸入密碼",
+                    minLength: { value: 6, message: "密碼長度至少需 6 碼" }
+                  })}
+                  required
+                />
+                <label htmlFor="password">Password</label>
+                {loginErrors.password && (
+                  <p className="text-danger mt-1">{loginErrors.password.message}</p>
+                )}
+              </div>
+              <button
+                className="btn btn-lg btn-primary w-100 mt-3"
+                type="submit"
+              >
+                登入
+              </button>
+            </form>
+          </div>
+        </div>
+        <p className="mt-5 mb-3 text-muted">&copy; 2025~∞ - 六角學院</p>
+      </div>
+    )}
+  </>
   );
 }
 
