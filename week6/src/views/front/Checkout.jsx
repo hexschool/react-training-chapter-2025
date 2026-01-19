@@ -36,7 +36,6 @@ function Checkout() {
       const response = await axios.get(url);
       setProducts(response.data.products);
       setPagination(response.data.pagination);
-      console.log(response);
     } catch (error) {
       console.log(error.response.data);
     }
@@ -109,12 +108,12 @@ function Checkout() {
   };
 
   // 更新商品數量
-  const updateCart = async (id, qty = 1) => {
+  const updateCart = async (cartId, productId, qty = 1) => {
     try {
-      const url = `${API_BASE}/api/${API_PATH}/cart/${id}`;
+      const url = `${API_BASE}/api/${API_PATH}/cart/${cartId}`;
 
       const data = {
-        product_id: id,
+        product_id: productId,
         qty,
       };
       await axios.put(url, { data });
@@ -141,6 +140,7 @@ function Checkout() {
 
   const openModal = async (id) => {
     productModalRef.current.show();
+    setCartQuantity(1);
     getProduct(id);
   };
 
@@ -395,7 +395,7 @@ function Checkout() {
                       defaultValue={item.qty}
                       key={item.qty}
                       onChange={(e) =>
-                        updateCart(item.id, Number(e.target.value))
+                        updateCart(item.id, item.product_id, Number(e.target.value))
                       }
                     />
                     <div className="input-group-text">/{item.product.unit}</div>
