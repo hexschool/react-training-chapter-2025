@@ -17,7 +17,6 @@ const Product = () => {
     try {
       const res = await axios.get(`${API_BASE}/api/${API_PATH}/product/${id}`);
       navigate(`/product/${id}`, { state: { productData: res.data } });
-      console.log(res.data);
     } catch (error) {
       console.error("取得產品資料失敗", error);
     }

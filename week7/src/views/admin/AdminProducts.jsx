@@ -25,11 +25,11 @@ function Product() {
     title: "",
     category: "",
     unit: "",
-    originPrice: "",
+    origin_price: "",
     price: 0,
     description: "",
     content: "",
-    isEnabled: false,
+    is_enabled: false,
     imagesUrl: [],
   });
 
@@ -42,11 +42,11 @@ function Product() {
       title: product.title || "",
       category: product.category || "",
       unit: product.unit || "",
-      originPrice: product.originPrice || "",
+      origin_price: product.origin_price || "",
       price: Number(product.price) || 0,
       description: product.description || "",
       content: product.content || "",
-      isEnabled: product.isEnabled || false,
+      is_enabled: product.is_enabled || false,
       imagesUrl: product.imagesUrl || [],
     });
     productModalRef.current.show();
@@ -120,9 +120,9 @@ function Product() {
     const productData = {
       data: {
         ...templateData,
-        origin_price: Number(templateData.originPrice),
+        origin_price: Number(templateData.origin_price),
         price: Number(templateData.price),
-        is_enabled: templateData.isEnabled ? 1 : 0,
+        is_enabled: templateData.is_enabled ? 1 : 0,
         imagesUrl: templateData.imagesUrl,
       },
     };

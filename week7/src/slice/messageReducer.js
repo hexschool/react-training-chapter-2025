@@ -24,7 +24,7 @@ export const messageSlice = createSlice({
       }
     },
     removeMessage(state, action) {
-      const index = state.findIndex((item) => item === action.payload);
+      const index = state.findIndex((item) => item.id === action.payload);
       state.splice(index, 1);
     },
   },

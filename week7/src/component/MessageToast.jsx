@@ -7,9 +7,9 @@ function MessageToast() {
       className="toast-container position-fixed"
       style={{ top: "64px", right: "15px" }}
     >
-      {messages.map((message, index) => (
+      {messages.map((message) => (
         <div
-          key={index}
+          key={message.id}
           className="toast show"
           role="alert"
           aria-live="assertive"

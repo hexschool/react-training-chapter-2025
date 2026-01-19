@@ -1,6 +1,3 @@
-import { useRef, useEffect } from "react";
-import * as bootstrap from "bootstrap";
-
 function ProductModal({
   modalType,
   templateData,
@@ -12,13 +9,6 @@ function ProductModal({
   onUpdateProduct,
   onDeleteProduct,
 }) {
-  const productModalRef = useRef(null);
-
-  useEffect(() => {
-    productModalRef.current = new bootstrap.Modal("#productModal", {
-      keyboard: false,
-    });
-  }, [modalType]);
 
   return (
     <div
@@ -27,7 +17,6 @@ function ProductModal({
       tabIndex="-1"
       aria-labelledby="productModalLabel"
       aria-hidden="true"
-      ref={productModalRef}
     >
       <div className="modal-dialog modal-xl">
         <div className="modal-content border-0">
@@ -76,11 +65,13 @@ function ProductModal({
                         onChange={onInputChange}
                       />
                     </div>
-                    <img
-                      className="img-fluid"
-                      src={templateData.imageUrl}
-                      alt="主圖"
-                    />
+                    {templateData.imageUrl && (
+                      <img
+                        className="img-fluid"
+                        src={templateData.imageUrl}
+                        alt="主圖"
+                      />
+                    )}
                   </div>
                   <div>
                     {templateData.imagesUrl.map((image, index) => (
