@@ -25,7 +25,7 @@ function Product() {
     title: "",
     category: "",
     unit: "",
-    origin_price: "",
+    origin_price: 0,
     price: 0,
     description: "",
     content: "",
@@ -42,8 +42,8 @@ function Product() {
       title: product.title || "",
       category: product.category || "",
       unit: product.unit || "",
-      origin_price: product.origin_price || "",
-      price: Number(product.price) || 0,
+      origin_price: product.origin_price || 0,
+      price: product.price || 0,
       description: product.description || "",
       content: product.content || "",
       is_enabled: product.is_enabled || false,
@@ -55,6 +55,28 @@ function Product() {
 
   const closeModal = () => {
     productModalRef.current.hide();
+  };
+
+  const handleFileChange = async (e) => {
+    const url = `${API_BASE}/api/${API_PATH}/admin/upload`;
+
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("file-to-upload", file);
+
+      let res = await axios.post(url, formData);
+      const uploadedImageUrl = res.data.imageUrl;
+
+      setTemplateData((prevTemplateData) => ({
+        ...prevTemplateData,
+        imageUrl: uploadedImageUrl,
+      }));
+    } catch (error) {
+      console.error("Upload error:", error);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -165,6 +187,19 @@ function Product() {
     }
   };
 
+  const logout = async () => {
+    try {
+      await axios.post(`${API_BASE}/logout`);
+      document.cookie = `hexToken=;expires=;`;
+      axios.defaults.headers.common.Authorization = '';
+
+      alert("已登出！");
+      navigate("/login");
+    } catch (error) {
+      alert("登出失敗: " + error.response.data.message);
+    }
+  }
+
   useEffect(() => {
     const token = document.cookie.replace(
       /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
@@ -191,7 +226,14 @@ function Product() {
   return (
     <>
       <div className="container">
-        <div className="text-end mt-4">
+        <div className="d-flex justify-content-between mt-4">
+          <button
+            type="button"
+            className="btn btn-secondary mt-5"
+            onClick={() => logout()}
+          >
+            登出
+          </button>
           <button
             type="button"
             className="btn btn-primary mt-5"
@@ -255,6 +297,7 @@ function Product() {
         templateData={templateData}
         onCloseModal={closeModal}
         onInputChange={handleInputChange}
+        onFileChange={handleFileChange}
         onImageChange={handleImageChange}
         onAddImage={handleAddImage}
         onRemoveImage={handleRemoveImage}

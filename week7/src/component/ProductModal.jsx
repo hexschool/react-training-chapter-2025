@@ -3,6 +3,7 @@ function ProductModal({
   templateData,
   onCloseModal,
   onInputChange,
+  onFileChange,
   onImageChange,
   onAddImage,
   onRemoveImage,
@@ -52,6 +53,21 @@ function ProductModal({
               <div className="row">
                 <div className="col-sm-4">
                   <div className="mb-2">
+                    <div className="mb-3">
+                      <label htmlFor="fileInput" className="form-label">
+                        圖片上傳
+                      </label>
+                      <input
+                        type="file"
+                        accept=".jpg,.jpeg,.png"
+                        className="form-control"
+                        id="fileInput"
+                        onChange={onFileChange}
+                      />
+                    </div>
+                    <p>
+                      or
+                    </p>
                     <div className="mb-3">
                       <label htmlFor="imageUrl" className="form-label">
                         輸入圖片網址
@@ -162,16 +178,16 @@ function ProductModal({
                   </div>
                   <div className="row">
                     <div className="mb-3 col-md-6">
-                      <label htmlFor="originPrice" className="form-label">
+                      <label htmlFor="origin_price" className="form-label">
                         原價
                       </label>
                       <input
-                        id="originPrice"
+                        id="origin_price"
                         type="number"
                         min="0"
                         className="form-control"
                         placeholder="請輸入原價"
-                        value={templateData.originPrice}
+                        value={templateData.origin_price}
                         onChange={onInputChange}
                       />
                     </div>
@@ -218,13 +234,13 @@ function ProductModal({
                   <div className="mb-3">
                     <div className="form-check">
                       <input
-                        id="isEnabled"
+                        id="is_enabled"
                         className="form-check-input"
                         type="checkbox"
-                        checked={templateData.isEnabled}
+                        checked={templateData.is_enabled}
                         onChange={onInputChange}
                       />
-                      <label className="form-check-label" htmlFor="isEnabled">
+                      <label className="form-check-label" htmlFor="is_enabled">
                         是否啟用
                       </label>
                     </div>

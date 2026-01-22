@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -30,6 +31,19 @@ const Login = () => {
       alert("登入失敗: " + error.response.data.message);
     }
   };
+
+  useEffect(() => {
+    const existingToken = document.cookie.replace(
+      /(?:(?:^|.*;\s*)hexToken\s*=\s*([^;]*).*$)|^.*$/,
+      "$1"
+    );
+
+    if (existingToken) {
+      axios.defaults.headers.common.Authorization = existingToken;
+      navigate("/admin/products");
+      return;
+    }
+  }, [navigate]);
 
   return (
     <div className="container login mt-5">
